@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% block body %}
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center vh-100">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title text-center">Add Product</h2>
+                    <p class="text-center">Fill in the fields, if you don't find the category in the list, you can create it <a href="/categories">here</a></p>
+                    <form method="POST" action="/product/add">
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Select Category:</label>
+                            <select class="form-select" id="category" name="category" required>
+                                <option value="" disabled selected>Select category</option>
+                                {% for ctg in categories %}
+                                    <option value="{{ ctg.id }}">{{ ctg.Name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Name product:</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Description:</label>
+                            <input type="text" class="form-control" id="description" name="description" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Price:</label>
+                            <input type="number" class="form-control" id="price" name="price" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Quantity:</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity"  required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary save-button">
+                                Save <i class="fas fa-save"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

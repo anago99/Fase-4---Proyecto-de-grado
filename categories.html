@@ -1,0 +1,93 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to categories</h5>
+
+<div class="container-fluid  mt-5" style="height: 100%; margin-bottom: 250px;" >
+        <div class="row">
+            <div class="container-md d-flex justify-content-between align-items-center">
+                <h2>List of categories</h2>
+                <a href="/addcategories" class="btn btn-primary">Add category <i class="fas fa-plus"></i></a>
+            </div>
+            
+            
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>description</th>
+                        <th>Status</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ctg in categories %}
+                    <tr>
+                        <td>{{ ctg.Name }}</td>
+                        <td>{{ ctg.Description }}</td>
+                        <td>{{ "Enabled" if ctg.Trace.enabled else "Disabled" }}</td>
+                        <td>
+                            <div class="text-center">
+                                {% if ctg.Trace.enabled %}
+                                    <a href="/edit/{{ ctg.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
+                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ ctg.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                {% else %}
+                                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reset-{{ ctg.id }}" data-bs-tooltip title="Recover"><i class="fas fa-undo"></i></a>
+                                {% endif %}
+                            </div>
+                            
+                            
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                
+            </table>
+            
+            
+           
+        </div>
+    </div>
+</div>
+
+{% for ctg in categories %}
+    <div class="modal fade" id="deleteModal-{{ ctg.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ ctg.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel-{{ ctg.id }}">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete "{{ ctg.Name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/delete/{{ ctg.id }}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reset-{{ ctg.id }}" tabindex="-1" aria-labelledby="reset-{{ ctg.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reset-{{ ctg.id }}">Confirm Recover</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to recover "{{ ctg.Name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/reset/{{ ctg.id }}" class="btn btn-success">Recover</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+
+{% endblock %}

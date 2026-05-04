@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inventario</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<nav class="navbar navbar-expand-lg navbar-light bg-dark fixed-top" style="height: 80px; ">
+    <div class="container-fluid bg-dark">
+        <a class="navbar-brand" href="/" style="color: white;">
+            <img src="{{ url_for('static', filename='images/logounad.jpg') }}" alt="Logo de tu página" height="30" style="border-radius: 49%;">
+
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav" style="font-size: 18px">
+
+
+                <li class="nav-item">
+                    <span class="nav-link" {% if not current_user.is_authenticated %} style="color: #6c757d; cursor: not-allowed;" {% endif %}>
+                        {% if current_user.is_authenticated %}
+                            <a href="/categories">Categories</a>
+                        {% else %}
+                        Categories
+                        {% endif %}
+                    </span>
+                </li>
+                
+                <li class="nav-item">
+                    <span class="nav-link" {% if not current_user.is_authenticated %} style="color: #6c757d; cursor: not-allowed;" {% endif %}>
+                        {% if current_user.is_authenticated %}
+                            <a href="/products">Products</a>
+                        {% else %}
+                        Products
+                        {% endif %}
+                    </span>
+                </li>
+
+            </ul>
+            <ul class="navbar-nav ms-auto">  <!-- Alineación a la derecha con 'ms-auto' -->
+                {% if current_user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="color: white">
+                            {{ current_user.get_id() }}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="/logout">Logout</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for message in messages %}
+            <!-- {{ message }} -->
+            <div class="alert {% if 'error' in message %}alert-danger{% else %}alert-success{% endif %} alert-dismissible fade show position-fixed bottom-0 end-0 p-3 auto-dismiss-alert" role="alert" style="max-width: 300px;">
+                <div class="pe-4" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                    {{ message }} <!-- Imprime el mensaje -->
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<style>
+    .alert {
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+    }
+    .alert-success {
+        background-color: #d4edda;
+        border-color: #c3e6cb;
+        color: #155724;
+    }
+    .alert-danger {
+        background-color: #f8d7da;
+        border-color: #f5c6cb;
+        color: #721c24;
+    }
+</style>
+
+    <div class=" cont " style="margin-top: 100px; ">{% block body %} {% endblock %}</div>
+    <link rel="stylesheet" href="../static/css/templates.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script>
+        // Selecciona todas las alertas con la clase "auto-dismiss-alert"
+        var autoDismissAlerts = document.querySelectorAll('.auto-dismiss-alert');
+
+        // Itera a través de las alertas y cierra cada una después de 2 segundos
+        autoDismissAlerts.forEach(function (alert) {
+            setTimeout(function () {
+                var bsAlert = new bootstrap.Alert(alert);
+                bsAlert.close();
+            }, 5000); // 2000 milisegundos = 2 segundos
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.7.0.js"> </script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"> </script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"> </script>
+    <script src="../static/js/script.js"></script>
+    
+</body>
+<footer>
+    <div class="container">
+        <div class="row justify-content-between align-items-center py-3">
+            <div class="col col-lg-4">
+                <p className="">Universidad Nacional Abierta y a Distancia</p>
+                <a href="mailto: amgomezov@unadvirtual.com" className="text-decoration-none color-white">
+                    Email: amgomezov@unadvirtual.com
+                </a>
+            </div>
+            <div
+                class="col d-flex flex-column flex-md-row align-items-center justify-content-between mt-3 d-lg-block col-lg-auto mt-lg-0">
+                <p>Partner</p>
+                <img src="../static/images/logounad.jpg" alt="partner EIAR" className="me-3 mb-2 mb-md-0" style="height: 60px;" />
+
+                
+            </div>
+        </div>
+
+
+    </div>
+  
+</footer>
+</html>

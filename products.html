@@ -1,0 +1,120 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h5 class="" style="margin-left: 15px;">In this section, you will be able to add, edit, and delete data corresponding to products</h5>
+
+<div class="container-fluid mt-5" style="height: 100%; margin-bottom: 250px;" >
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 p-3 auto-dismiss-alert" role="alert" style="max-width: 300px;">
+        <div class="pe-4" style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+            {{ message }}
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    
+    {% endfor %} 
+    {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        
+
+        <div class="row">
+            <div class="container-md d-flex justify-content-between align-items-center">
+                <h2>List of products</h2>
+                <a href="/addproducts" class="btn btn-primary">Add product <i class="fas fa-plus"></i></a>
+            </div>
+            
+            <table id="example" class="table table-striped" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Status</th>
+                        <th>Category</th>  
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pro in products %}
+                    <tr>
+                        <td>{{ pro.Name }}</td>
+                        <td>{{ pro.Description }}</td>
+                        <td>{{ pro.Price }}</td>
+                        <td>{{ pro.Quantity }}</td>
+                        <td>{{ "Enabled" if pro.Trace.enabled else "Disabled" }}</td>
+
+                        <td>
+                            {% for ctg in categories %}
+                            {% if ctg.id == pro.Category.id %}
+                            {{ ctg.Name }}
+                            {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <div class="text-center">
+                                {% if pro.Trace.enabled %}
+                                    <a href="/editproduct/{{ pro.id }}" class="btn btn-warning" data-bs-toggle="tooltip" title="Edit"><i class="fas fa-edit"></i> </a>
+                                    <a href="#" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ pro.id }}" data-bs-tooltip title="Delete"><i class="fas fa-trash-alt"></i></a>
+                                {% else %}
+                                <a href="#" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reset-{{ pro.id }}" data-bs-tooltip title="Recover"><i class="fas fa-undo"></i></a>
+                                {% endif %}
+                            </div>
+                            
+                            
+                            
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% for pro in products %}
+    <div class="modal fade" id="deleteModal-{{ pro.id }}" tabindex="-1" aria-labelledby="deleteModalLabel-{{ pro.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel-{{ pro.id }}">Confirm Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete "{{ pro.Name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/deleteproduct/{{ pro.id }}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="reset-{{ pro.id }}" tabindex="-1" aria-labelledby="reset-{{ pro.id }}" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reset-{{ pro.id }}">Confirm Recover</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to recover "{{ pro.Name }}"?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="/resetproduct/{{ pro.id }}" class="btn btn-success">Recover</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+
+
+{% endblock %}
+
+
+

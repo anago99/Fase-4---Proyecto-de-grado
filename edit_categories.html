@@ -1,0 +1,33 @@
+{%extends 'layout.html' %}
+{% block body%}
+<div class="container-fluid d-flex justify-content-center " style="min-height: 80vh;">
+    <div class="col-md-6">
+        <h2 class="card-title text-center">Edit Category</h2>
+    
+        <div class="card">
+    
+            <div class="card">
+                <div class="card-body">
+                    <form method="POST" action="/edit/{{category.id}}">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Edit category:</label>
+                            <input type="text" class="form-control" id="name" name="name" value="{{category.Name}}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="ext_id" class="form-label">Description:</label>
+                            <input type="text" class="form-control" id="description" name="description" value="{{category.Description}}" required>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-warning edit-button" type="button">
+                              <i class="fas fa-edit"></i> Edit
+                          </button>
+                          
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}

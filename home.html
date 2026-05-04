@@ -1,0 +1,30 @@
+{% extends 'layout.html' %} 
+{% block body %}
+<div class="header-bg">
+    <div class="container container-header">
+      <div class="row justify-content-between flex-column flex-md-row">
+        <div class="col-12 col-md-7 col-lg-5 d-flex flex-column gap-2 mb-5 mb-md-0">
+          <h1 class="fw-medium" style="line-height: 140%;">
+            Inventory management
+          </h1>
+          <p class="fw-normal" style="line-height: 150%;">
+            You can manage your own inventory
+          </p>
+          <a href="/login" class="btn btn-primary text-white rounded-5 py-2 px-4 fw-medium" style="width: fit-content;">
+            Log in
+          </a>
+        </div>
+        <div class="col-12 col-md-5 col-lg-5 d-flex flex-column gap-2">
+          <h5 class="fw-medium" style="font-size: 1.2em;">Explore and Manage Data</h5>
+          <p class="fw-normal" style="line-height: 150%;">
+            Platform created to help small businesses with their inventory.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="divider">
+      <div class="scroll-down-link scroll-down-arrow"></div>
+    </div>
+  </div>
+ 
+{% endblock %}
